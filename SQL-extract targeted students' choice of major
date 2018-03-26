@@ -1,0 +1,19 @@
+select *
+from 
+	(select UserID, Name,SchoolID from student where Grade = '2016') stu
+join 
+	(select SchoolID,schoolName from school where RegionID = '285') sch
+	on sch.SchoolID = stu.SchoolID
+left join 
+	(select UserID,MajorMLID,MajorMLName,Score,Recommand 
+    from majorrecommand 
+    where Recommand in ('3','6') and MajorMLID='1002') maj
+	on maj.UserID = stu.UserID
+    ;
+    
+select UserID,MajorMLID,MajorMLName,Score,Recommand 
+    from majorrecommand 
+    where Recommand in ('3','6') and MajorMLID='1002'
+;
+
+select * from majorrecommand;

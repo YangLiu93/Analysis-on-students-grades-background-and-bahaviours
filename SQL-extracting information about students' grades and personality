@@ -5,7 +5,7 @@ join
 (select SchoolID, RegionID from school where RegionID='285') sch
 on stu.SchoolID=  sch.SchoolID;
 
-#information about students who are in grade 2016 and region binzhou
+#score information about students who are in grade 2016 and region binzhou
 select *
 from 
 (select UserID, Name,SchoolID from student where Grade='2016') stu

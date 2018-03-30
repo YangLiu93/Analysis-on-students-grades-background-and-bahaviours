@@ -1,0 +1,101 @@
+select * from
+(select UserID, Name,SchoolID from student where Grade='2016') stu
+join 
+(select SchoolID, RegionID from school where RegionID='285') sch
+on stu.SchoolID=  sch.SchoolID;
+
+
+select *
+from 
+(select UserID, Name,SchoolID from student where Grade='2016') stu
+join 
+(select SchoolID, RegionID from school where RegionID='285') sch
+on stu.SchoolID=  sch.SchoolID
+join 
+(select UserID,
+ExamID,PhysScore,ChemScore,BiolScore,GeogScore,HistScore,PoliScore,TechScore,ChinScore,MathScore,EnglScore,TotalScore 
+from stuscores) score
+on stu.UserID = score.UserID;
+
+
+
+select student.UserID,student.Name,
+school.SchoolID,
+stuscores.ExamID,PhysScore,ChemScore,BiolScore,GeogScore,HistScore,PoliScore,TechScore,ChinScore,MathScore,EnglScore,TotalScore
+from 
+    student left join school 
+	on school.SchoolID = student.SchoolID
+    left join 
+    stuscores
+    on stuscores.UserID = student.UserID
+where school.RegionID ='501'
+and student.Grade='2016'
+;
+
+select *
+from 
+	(select UserID, Name,SchoolID from student where Grade='2016') stu
+join 
+	(select SchoolID,schoolName from school where RegionID='285') sch
+	on sch.SchoolID = stu.SchoolID
+left join 
+	(select UserID,QuestionNo,AnswerNo from personinforecord ) reco
+    on stu.UserID = reco.UserID
+left join
+	(select QuestionNo, Question, GroupQuestion from personinfoquiz group by QuestionNo) questy
+    on questy.QuestionNo = reco.QuestionNo
+left join
+	(select QuestionNo, AnswerNo, Answer from personinfoquiz) questy2
+    on questy2.AnswerNo = reco.AnswerNo and questy2.QuestionNo = reco.QuestionNo
+;
+
+
+
+
+select *
+from 
+	(select UserID, Name,SchoolID from student where Grade='2016') stu
+join 
+	(select SchoolID,schoolName from school where RegionID='285') sch
+	on sch.SchoolID = stu.SchoolID
+left join
+	(select UserID,Score_Phys,TotalScore_Phys,Score_Chem,TotalScore_Chem,Score_Biol,TotalScore_Biol,Score_Geog,
+    TotalScore_Geog,Score_Hist,TotalScore_Hist,Score_Poli,TotalScore_Poli,Score_Tech,TotalScore_Tech from stuinterestreport) interest
+	on interest.UserID = stu.UserID
+left join
+	(select UserID,MBTI_IE,TotalScore_IE,MBTI_SN,TotalScore_NS,MBTI_TF,TotalScore_FT,MBTI_JP,TotalScore_PJ from stumbtireport) mbti
+	on mbti.UserID = stu.UserID
+left join
+	(select UserID,Holland_C,TotalScore_C,Holland_R,TotalScore_R,Holland_I,TotalScore_I,Holland_E,TotalScore_E,Holland_S,TotalScore_S,Holland_A,TotalScore_A from stuhollandreport) holland
+	on holland.UserID = stu.UserID
+;
+
+
+select *
+from 
+	(select UserID, Name,SchoolID from student where Grade='2016') stu
+join 
+	(select SchoolID,schoolName from school where RegionID='285') sch
+	on sch.SchoolID = stu.SchoolID
+left join 
+	(select UserID,AdoptedCombination,ChoiceType from stusubchoice) sub
+	on sub.UserID = stu.UserID
+;
+
+
+select *
+from 
+	(select UserID, Name,SchoolID from student where Grade = '2016') stu
+join 
+	(select SchoolID,schoolName from school where RegionID = '285') sch
+	on sch.SchoolID = stu.SchoolID
+left join 
+	(select UserID,QuestionNo,AnswerNo from personinforecord where QuestionNo = '6') reco
+    on stu.UserID = reco.UserID
+left join
+	(select QuestionNo, Question, GroupQuestion from personinfoquiz where QuestionNo ='6' group by QuestionNo) questy
+    on questy.QuestionNo = reco.QuestionNo
+left join
+	(select AnswerNo, Answer from personinfoquiz where QuestionNo = '6') questy2
+    on questy2.AnswerNo = reco.AnswerNo
+;

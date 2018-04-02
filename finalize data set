@@ -1,0 +1,21 @@
+library(data.table)
+shandongbinzhou<-read.csv("shandongbinzhou.csv",header = TRUE)
+head(shandongbinzhou)
+shandongbinzhou<-shandongbinzhou[,-4]
+shandongbinzhou<-shandongbinzhou[,-13]
+head(shandongbinzhou)
+dim(shandongbinzhou)
+length(unique(shandongbinzhou$UserID))
+drop1<-c("Name","RegionID","UserID.1","SchoolID","ExamID")
+shandongbinzhou<-shandongbinzhou[,!names(shandongbinzhou)%in%drop1]
+
+binzhouxingquceshi<-read.csv("binzhouxingquceshi.csv",header = TRUE)
+drop<-c("Name","SchoolID.1","UserID.1","UserID.2","UserID.3","TotalScore_Phys","TotalScore_Chem","TotalScore_Biol","TotalScore_Geog","TotalScore_Hist","TotalScore_Poli","TotalScore_Tech","Score_Tech","TotalScore_IE","TotalScore_NS","TotalScore_FT","TotalScore_PJ","TotalScore_C","TotalScore_R","TotalScore_I","TotalScore_E","TotalScore_S","TotalScore_A","schoolName")
+binzhouxingquceshi<-binzhouxingquceshi[,!names(binzhouxingquceshi)%in%drop]
+names(binzhouxingquceshi)
+binzhouxingquceshi<-rename(binzhouxingquceshi,c("Score_Phys"="Intrest_Score_Phys","Score_Chem"="Intrest_Score_Chem","Score_Biol"="Intrest_Score_Biol","Score_Geog"="Intrest_Score_Geog","Score_Hist"="Intrest_Score_Hist","Score_Poli"="Intrest_Score_Poli"))
+
+hhhh<-merge(shandongbinzhou,binzhouxingquceshi,by="UserID")
+head(hhhh)
+dim(hhhh)
+hhhh<-hhhh[!duplicated(hhhh$UserID),]
